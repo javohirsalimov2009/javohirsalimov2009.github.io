@@ -86,11 +86,20 @@
             border: 1px solid #ffffff;
             cursor: not-allowed;
         }
+
         .form {
             border: 1px solid black;
             padding: 20px;
             border-radius: 10px;
+        }
 
+        .error {
+            color: red;
+            font-size: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            padding: 10px;
         }
     </style>
 </head>
@@ -99,23 +108,26 @@
     <div class="container">
         <h1>Beruniy Olimpiadasiga Ro'yxatdan o'tish</h1>
         <div class="form">
-        <input type="text" id="fullname" placeholder="Ism, Familiyangiz">
-        <br>
-        <input type="text" id="phone", placeholder="Telefon raqamingiz">
-        <br>
-        <select id="province">
-            <option value="">Viloyatingizni tanlang</option>
-        </select>
-        <br>
-        <select id="city" disabled>
-            <option value="">Tumanni tanlang</option>
-        </select>
-        <br>
-        <input type="text" id="school" placeholder="Maktabingizni kiriting">
-        <br>
-        <input type="number" id="school_class" placeholder="Sinfingizni kiriting" min="1" max="11" step="1">
-        <br>
-        <button id="register">Ro'yxatdan o'tish</button></div>
+            <input type="text" id="fullname" placeholder="Ism, Familiyangiz">
+            <br>
+            <input type="text" id="phone" , placeholder="Telefon raqamingiz">
+            <br>
+            <select id="province">
+                <option value="">Viloyatingizni tanlang</option>
+            </select>
+            <br>
+            <select id="city" disabled>
+                <option value="">Tumanni tanlang</option>
+            </select>
+            <br>
+            <input type="text" id="school" placeholder="Maktabingiz">
+            <br>
+            <input type="number" id="school_class" placeholder="Sinfingiz" min="1" max="11" step="1">
+            <br>
+
+            <button id="register">Ro'yxatdan o'tish</button>
+            <div class="error"></div>
+        </div>
 
     </div>
     <script src="./telegram-web-app.js"></script>
@@ -367,19 +379,24 @@
         })
 
         document.getElementById('register').addEventListener('click', function () {
+            document.querySelector('.error').textContent = ''
             const fullname = document.getElementById('fullname').value
             const phone = document.getElementById('phone').value
             const province = document.getElementById('province').value
             const city = document.getElementById('city').value
             const school = document.getElementById('school').value
             const school_class = document.getElementById('school_class').value
+            if (!fullname || !phone || !province || !city || !school || !school_class) {
+                document.querySelector('.error').textContent = 'Barcha maydonlarni to\'ldiring!'
+                return
+            }
             const data = {
-                fullname:fullname,
-                phone:phone,
-                province:province,
-                city:city,
-                school:school,
-                school_class:school_class
+                fullname: fullname,
+                phone: phone,
+                province: province,
+                city: city,
+                school: school,
+                school_class: school_class
             }
             tg.sendData(JSON.stringify(data))
             tg.close()
