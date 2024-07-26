@@ -365,6 +365,10 @@
                     document.querySelector('.error').style.display = 'block'
                     return
                 }
+                if (phone.length != 9 || !phone.startsWith('+998')) {
+                    document.querySelector('.error').textContent = 'Telefon raqamda xatolik mavjud!'
+                    return
+                }
                 const data = {
                     fullname: fullname,
                     phone: phone,
