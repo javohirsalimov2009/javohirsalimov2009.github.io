@@ -141,6 +141,7 @@
                 id: id,
                 action: 'set'
             }
+            window.location.href = `https://t.me/edupromocktest_bot?start=${encodeURIComponent(data.toString())}`
             tg.sendData(JSON.stringify(data))
             tg.close()
         })
