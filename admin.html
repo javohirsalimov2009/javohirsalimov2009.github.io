@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPro</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: left;
+        }
+
+        h3 {
+            color: aliceblue !important;
+            margin-left: 20px;
+        }
+
+        label {
+            font-size: 20px;
+            margin-bottom: 0;
+            padding: 0;
+            font-weight: bolder;
+        }
+
+        input {
+            width: 300px;
+            height: 40px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        select {
+            width: 240px !important;
+            height: 40px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            border-radius: 10px;
+            outline: none;
+            border: 2px inset black;
+        }
+
+        option {
+            font-size: 18px;
+            padding: 0 10px;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        body {
+            background-color: var(--tg-theme-bg-color) !important;
+        }
+
+        select:disabled {
+            background-color: #8e8e8e;
+            color: #424242;
+            border: 1px solid #ffffff;
+            cursor: not-allowed;
+        }
+
+        .form {
+            border: 1px solid #9c9c9c;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #3f3f3f;
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="./bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+        <h3>EduPro Mock Test</h3>
+        <div class="form">
+            <input type="text" id="type" class="form-control" placeholder="Mock test turi">
+            <br>
+            <input type="number" id="price" placeholder="Mock test narxi" class="form-control"
+                placeholder="Telefon raqamingiz">
+            <br>
+            <input type="date" id="date" class="form-control" placeholder="Mock test sanasi">
+            <br>
+            <input type="time" id="time" class="form-control" placeholder="Mock test vaqti">
+            <br>
+            <div class="alert alert-danger error" role="alert" style="display: none;"> </div>
+
+            <button id="delete" class="btn btn-danger">O'chirish</button>
+            <button id="register" class="btn btn-primary">Qabul qilish</button>
+        </div>
+    </div>
+    <script src="./telegram-web-app.js"></script>
+    <script src="./bootstrap.js"></script>
+    <script>
+        tg = window.Telegram.WebApp
+        tg.expand()
+
+        const url = new URLSearchParams(window.location.search)
+        let type = url.get('title')
+        let price = url.get('price')
+        let date = url.get('date')
+        let time = url.get('time')
+        const id = url.get('id')
+        if (type) {
+            document.getElementById('type').value = type
+            document.getElementById('type').setAttribute('disabled', 'disabled')
+        }
+        if (price) {
+            document.getElementById('price').value = price
+        }
+        if (date) {
+            document.getElementById('date').value = date
+        }
+        if (time) {
+            document.getElementById('time').value = time
+        }
+        
+
+        document.getElementById('register').addEventListener('click', function () {
+            document.querySelector('.error').textContent = ''
+            document.querySelector('.error').style.display = 'none'
+            type = document.getElementById('type').value
+            price = document.getElementById('price').value
+            date = document.getElementById('date').value
+            time = document.getElementById('time').value
+            if (!type || !price || !date || !time) {
+                document.querySelector('.error').textContent = 'Barcha maydonlarni to\'ldiring!'
+                document.querySelector('.error').style.display = 'block'
+                return
+            }
+            const data = {
+                type: type,
+                price: price,
+                date: date,
+                time: time,
+                id: id,
+                action: 'set'
+            }
+            tg.sendData(JSON.stringify(data))
+            tg.close()
+        })
+
+
+        document.getElementById('delete').addEventListener('click', function () {
+            const data = {
+                id: id,
+                action: 'delete'
+            }
+            tg.sendData(JSON.stringify(data))
+            tg.close()
+        })
+
+    </script>
+
+</body>
+
+</html>
