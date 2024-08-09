@@ -90,8 +90,7 @@
             <br>
             <div class="alert alert-danger error" role="alert" style="display: none;"> </div>
 
-            <button id="delete" class="btn btn-danger">O'chirish</button>
-            <button id="register" class="btn btn-primary">Qabul qilish</button>
+            <button id="register" class="btn btn-primary">O'zgartirish</button>
         </div>
     </div>
     <script src="./telegram-web-app.js"></script>
@@ -140,16 +139,6 @@
                 time: time,
                 id: id,
                 action: 'set'
-            }
-            tg.sendData(JSON.stringify(data))
-            tg.close()
-        })
-
-
-        document.getElementById('delete').addEventListener('click', function () {
-            const data = {
-                id: id,
-                action: 'delete'
             }
             tg.sendData(JSON.stringify(data))
             tg.close()
