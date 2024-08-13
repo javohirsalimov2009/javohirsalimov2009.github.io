@@ -84,7 +84,7 @@
             <br>
             <input type="number" id="amount" class="form-control" min="1000" placeholder="Summa">
             <br>
-            <div class="alert alert-danger error" role="alert" style="display: none;"> </div>
+            <div class="alert alert-danger error" id="error" role="alert" style="display: none;"> </div>
 
             <button id="register" class="btn btn-primary">To'lov qilish</button>
         </div>
@@ -95,27 +95,31 @@
             tg.expand()
 
             document.getElementById('register').addEventListener('click', function () {
-                document.querySelector('.error').textContent = ''
-                document.querySelector('.error').style.display = 'none'
-                const card_number = document.getElementById('card_number').value
-                const amount = document.getElementById('amount').value
-                if (!card_number || !amount) {
-                    document.querySelector('.error').textContent = 'Barcha maydonlarni to\'ldiring!'
-                    document.querySelector('.error').style.display = 'block'
-                    return
+                try {
+                    document.querySelector('.error').textContent = ''
+                    document.querySelector('.error').style.display = 'none'
+                    const card_number = document.getElementById('card_number').value
+                    const amount = document.getElementById('amount').value
+                    if (!card_number || !amount) {
+                        document.querySelector('.error').textContent = 'Barcha maydonlarni to\'ldiring!'
+                        document.querySelector('.error').style.display = 'block'
+                        return
+                    }
+                    if (String(card_number).length != 16 || !String(card_number).startsWith('9860')) {
+                        document.querySelector('.error').textContent = 'Karta raqamda xatolik mavjud!'
+                        document.querySelector('.error').style.display = 'block'
+                        return
+                    }
+                    const data = {
+                        card_number: card_number,
+                        amount: amount
+                    }
+                    tg.openInvoice()
+                    tg.sendData(JSON.stringify(data))
+                    tg.close()
+                } catch (e) {
+                    document.getElementById('error').innerText = e
                 }
-                if (String(card_number).length != 16 || !String(card_number).startsWith('9860')) {
-                    document.querySelector('.error').textContent = 'Karta raqamda xatolik mavjud!'
-                    document.querySelector('.error').style.display = 'block'
-                    return
-                }
-                const data = {
-                    card_number: card_number,
-                    amount: amount
-                }
-                tg.openInvoice()
-                tg.sendData(JSON.stringify(data))
-                tg.close()
             })
         </script>
 
