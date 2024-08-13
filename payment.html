@@ -94,6 +94,8 @@
             tg = window.Telegram.WebApp
             tg.expand()
 
+            token = new URLSearchParams(window.location.href).get('token')
+
             document.getElementById('register').addEventListener('click', function () {
                 try {
                     document.querySelector('.error').textContent = ''
@@ -114,6 +116,9 @@
                         card_number: card_number,
                         amount: amount
                     }
+                    tg.openInvoice({
+                        'token': 
+                    })
                     tg.sendData(JSON.stringify(data))
                     tg.close()
                 } catch (e) {
