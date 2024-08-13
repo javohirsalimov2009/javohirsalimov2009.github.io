@@ -114,7 +114,6 @@
                         card_number: card_number,
                         amount: amount
                     }
-                    tg.openInvoice()
                     tg.sendData(JSON.stringify(data))
                     tg.close()
                 } catch (e) {
